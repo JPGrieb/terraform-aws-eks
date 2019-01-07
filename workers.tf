@@ -116,6 +116,11 @@ resource "aws_iam_instance_profile" "workers" {
   count       = "${var.worker_group_count}"
 }
 
+resource "aws_iam_role_policy_attachment" "workers_AmazonSecretWorkerNodePolicy" {
+  policy_arn = "arn:aws:iam::aws:policy/SecretsManagerReadWrite"
+  role       = "${aws_iam_role.workers.name}"
+}
+
 resource "aws_iam_role_policy_attachment" "workers_AmazonEKSWorkerNodePolicy" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy"
   role       = "${aws_iam_role.workers.name}"
